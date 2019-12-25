@@ -6,6 +6,7 @@ WIDTH = 400
 HEIGHT = 400
 grid = []
 train_entry = []
+train_output = []
 
 
 class Block:
@@ -80,7 +81,13 @@ def create_ui(canvas):
     canvas.create_window(175, 335, window=guess, height=20)
     clear = Button(canvas, text="Clear", command=clear_grid)
     canvas.create_window(85, 335, window=clear, height=20)
+    output_guess = Label(canvas, text="Guess")
+    canvas.create_window(175, 360, window=output_guess, height=20)
+    output_certainty = Label(canvas, text="Certainty")
+    canvas.create_window(175, 380, window=output_certainty, height=20)
     train_entry.append(textbox)
+    train_output.append(output_guess)
+    train_output.append(output_certainty)
 
 
 def clear_grid():
@@ -123,8 +130,9 @@ def get_guess():
             if row:
                 training_data.append(row)
 
-    guess = knn(23, training_data)
-    print(guess)
+    guess, certainty = knn(15, training_data)
+    train_output[0].config(text=str(guess))
+    train_output[1].config(text=str(certainty))
 
 
 def knn(k, rows):
@@ -142,8 +150,11 @@ def count_nn(neighbours):
     numbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for neighbour in neighbours:
         numbers[neighbour.number] += 1
-    print(str(((max(numbers))/sum(numbers)) * 100) + "% certainty")
-    return numbers.index(max(numbers))
+    print(numbers)
+    guess = numbers.index(max(numbers))
+    cert = round(max(numbers)/sum(numbers) * 100, 2)
+    certainty = str(cert) + "% certainty"
+    return [guess, certainty]
 
 
 def insert(neighbours, neighbour, start_index):
