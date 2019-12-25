@@ -42,10 +42,9 @@ class Neighbour:
     def neighbour_distance(self, drawing_grid):
         distance = 0
         for i in range(len(drawing_grid)):
-            if drawing_grid[i].filled != self.pixels[i]:
-                distance += 100
+            distance = distance + (drawing_grid[i].filled - self.pixels[i])**2
 
-        self.distance = distance
+        self.distance = sqrt(distance)
         return distance
 
 
