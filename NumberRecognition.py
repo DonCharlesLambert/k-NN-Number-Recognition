@@ -127,7 +127,7 @@ def get_guess():
     with open('training.csv', 'r') as csvfile:
         train_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in train_reader:
-            if row:
+            if row:  # checks row isn't empty
                 training_data.append(row)
 
     guess, certainty = knn(15, training_data)
@@ -135,10 +135,11 @@ def get_guess():
     train_output[1].config(text=str(certainty))
 
 
+# takes k and the training data
+# for each row, row[0] is the classification, row[1:] is the pixel information
 def knn(k, rows):
     closest_k = []
     for row in rows:
-        # index 0 is the classification of the record (the number it represents)
         neighbour = Neighbour(row)
         neighbour.neighbour_distance(grid)
         insert(closest_k, neighbour, 0)
@@ -146,17 +147,19 @@ def knn(k, rows):
     return count_nn(closest_k)
 
 
+# counts the classification of the k nearest neighbours
+# returns the most popular neighbour classification and the % of those neighbours with that classification
 def count_nn(neighbours):
     numbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for neighbour in neighbours:
         numbers[neighbour.number] += 1
-    print(numbers)
     guess = numbers.index(max(numbers))
     cert = round(max(numbers)/sum(numbers) * 100, 2)
     certainty = str(cert) + "% certainty"
     return [guess, certainty]
 
 
+# inserts in correct position using recursion, to order by distance
 def insert(neighbours, neighbour, start_index):
     if len(neighbours) == 0:
         neighbours.append(neighbour)
