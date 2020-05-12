@@ -1,6 +1,0 @@
-Don's K-NN :)
-# create a Y x Y painting region
-# when a number is drawn its added to the training data along with all Y^2 pixels
-# this training data is used to plot a Y^2-dimensional map
-# the distance between data is calculated with pythagoras but for Y^2-dimensions
-# use real kNN
