@@ -94,8 +94,6 @@ def clear_grid():
         block.clear()
 
 
-# SUBMIT COMMAND SHOULD BE SAVE WINDOW IN ORDER TO PREVENT TAMPERING OF TRAINING DATA
-# IN ADDITION THIS DOESN'T YET CHECK FOR A PASSWORD
 def save_window():
     window = Tk()
     canvas = Canvas(window)
